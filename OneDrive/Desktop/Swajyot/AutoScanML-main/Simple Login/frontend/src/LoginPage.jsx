@@ -1,5 +1,27 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "./swajyot.jpeg";
+
+function Spinner() {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid"></div>
+    </div>
+  );
+}
+
+function SuccessCheck() {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
+      <div className="flex flex-col items-center">
+        <svg className="h-20 w-20 text-green-500 animate-bounceIn" fill="none" stroke="currentColor" strokeWidth="4" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        <span className="text-2xl text-green-600 font-bold mt-4 animate-fadeIn">Login Successful!</span>
+      </div>
+    </div>
+  );
+}
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -7,6 +29,8 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [message, setMessage] = useState("");
   const [rememberedUsers, setRememberedUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +67,8 @@ export default function LoginPage() {
   };
 
   const handleLogin = async () => {
+    setLoading(true);
+    setMessage("");
     try {
       const response = await fetch("http://localhost:5000/api/login", {
         method: "POST",
@@ -54,28 +80,31 @@ export default function LoginPage() {
         setMessage("Login successful!");
         let users = JSON.parse(localStorage.getItem("rememberedUsers") || "[]");
         if (rememberMe) {
-          // Add or update the user
           users = users.filter(u => u.username !== username);
           users.unshift({ username, password });
           localStorage.setItem("rememberedUsers", JSON.stringify(users));
         } else {
-          // Remove the user if present
           users = users.filter(u => u.username !== username);
           localStorage.setItem("rememberedUsers", JSON.stringify(users));
         }
         setRememberedUsers(users);
         localStorage.setItem("username", username);
-        setTimeout(() => navigate("/dashboard"), 1000);
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+          navigate("/dashboard");
+        }, 1200);
       } else {
         setMessage(data.message || "Login failed");
       }
     } catch (err) {
       setMessage("Error connecting to server");
     }
+    setLoading(false);
   };
 
   return (
-    <div className="flex h-screen">
+    <div className={`flex h-screen transition-opacity duration-500 ${success ? 'opacity-0' : 'opacity-100'}`}>
       {/* Left panel */}
       <div className="w-1/2 bg-cover bg-center relative" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80')" }}>
         <div className="absolute inset-0 bg-black opacity-60"></div>
@@ -97,7 +126,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md space-y-6 px-8 py-10 rounded-2xl shadow-2xl bg-white/70 backdrop-blur-md z-10 relative animate-fade-in">
           {/* Logo */}
           <div className="flex flex-col items-center mb-4">
-            <img src="/logo192.png" alt="Logo" className="w-16 h-16 mb-2 rounded-full shadow-lg" />
+            <img src={logo} alt="Swajyot Logo" className="w-16 h-16 mb-2 rounded-full shadow-lg" />
             <h2 className="text-3xl font-bold text-gray-800">Sign in</h2>
             <p className="text-gray-500 text-sm">Welcome back! Please login to your account.</p>
           </div>
@@ -147,6 +176,14 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
             />
+            <button
+              type="button"
+              className="text-xs text-blue-600 mt-1 underline hover:text-blue-800 transition"
+              onClick={() => navigate('/forgot-password')}
+              style={{ float: 'right' }}
+            >
+              Forgot Password?
+            </button>
           </div>
           <div className="flex justify-between items-center text-sm">
             <label className="flex items-center">
@@ -177,10 +214,20 @@ export default function LoginPage() {
             Don't have an account? Sign up
           </button>
         </div>
+        {loading && <Spinner />}
+        {success && <SuccessCheck />}
       </div>
     </div>
   );
 }
-// Add this animation to your global CSS or Tailwind config:
-// .animate-fade-in { animation: fadeIn 0.7s ease; }
-// @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+/* Add these animations to your global CSS or Tailwind config:
+.animate-bounceIn { animation: bounceIn 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+@keyframes bounceIn {
+  0% { opacity: 0; transform: scale(0.3); }
+  50% { opacity: 1; transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.animate-fadeIn { animation: fadeIn 0.7s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+*/

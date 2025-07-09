@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './LoginPage';
+import ForgotPassword from "./ForgotPassword";
 import Dashboard from './Dashboard';
 import ScannedReports from "./ScannedReports";
 import UploadModel from './UploadModel';
@@ -15,6 +16,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/scanned-reports" element={<ScannedReports />} />
         <Route path="/upload-model" element={<UploadModel />} />

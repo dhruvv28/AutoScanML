@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import logo from "./swajyot.svg";
+import logo from "./swajyot.jpeg";
 import { useNavigate } from "react-router-dom";
 import uploadImg from "./upload.svg";
 
@@ -10,6 +10,17 @@ export default function UploadModel() {
   const [loading, setLoading] = useState(false);
   const [reportUrl, setReportUrl] = useState(null);
   const navigate = useNavigate();
+  const mainRef = useRef();
+
+  function handleBack() {
+    if (mainRef.current) {
+      mainRef.current.classList.remove('animate-slideFadeIn');
+      mainRef.current.classList.add('animate-slideFadeOut');
+      setTimeout(() => navigate('/dashboard'), 700);
+    } else {
+      navigate('/dashboard');
+    }
+  }
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -65,14 +76,14 @@ export default function UploadModel() {
           <span className="text-2xl font-bold text-blue-600 font-sans">Swajyot AutoScanML</span>
         </div>
         <button
-          onClick={() => navigate('/dashboard')}
+          onClick={handleBack}
           className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-2 rounded shadow transition border border-blue-300"
         >
           ← Back to Dashboard
         </button>
       </div>
       {/* Main content */}
-      <div className="flex flex-1 items-center justify-center w-full dark:text-white">
+      <div ref={mainRef} className="flex-1 flex flex-col items-center justify-center p-8 animate-slideFadeIn">
         {!showResult ? (
           loading ? (
             <div className="flex flex-col items-center justify-center mt-32">

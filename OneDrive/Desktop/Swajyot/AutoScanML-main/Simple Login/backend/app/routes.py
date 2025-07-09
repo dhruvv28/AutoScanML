@@ -278,3 +278,57 @@ def get_vulnerabilities():
 def get_high_risk_models():
     models = UploadedModel.query.filter_by(high_risk=True).order_by(UploadedModel.upload_date.desc()).all()
     return jsonify([model.to_dict() for model in models])
+
+@auth_blueprint.route('/api/forgot-password-request', methods=['POST'])
+def forgot_password_request():
+    data = request.json
+    email = data.get('email')
+    if not email:
+        return jsonify({'error': 'Email is required'}), 400
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        # For security, do not reveal if email exists
+        return jsonify({'message': 'If the email exists, an OTP has been sent.'}), 200
+    # Generate 4-digit OTP
+    otp_code = '{:04d}'.format(random.randint(0, 9999))
+    otp_expiry = datetime.utcnow() + timedelta(minutes=3)
+    user.otp_code = otp_code
+    user.otp_expiry = otp_expiry
+    db.session.commit()
+    # Send OTP email
+    try:
+        msg = Message('Your Swajyot Password Reset OTP', recipients=[email])
+        msg.body = f'Your OTP for Swajyot password reset is: {otp_code}\nIt is valid for 3 minutes.'
+        mail.send(msg)
+    except Exception as e:
+        print('EMAIL ERROR:', e)
+        user.otp_code = None
+        user.otp_expiry = None
+        db.session.commit()
+        return jsonify({'error': 'Failed to send OTP email.'}), 500
+    return jsonify({'message': 'If the email exists, an OTP has been sent.'}), 200
+
+@auth_blueprint.route('/api/forgot-password-verify', methods=['POST'])
+def forgot_password_verify():
+    data = request.json
+    email = data.get('email')
+    otp_code = data.get('otp')
+    new_password = data.get('new_password')
+    if not all([email, otp_code, new_password]):
+        return jsonify({'error': 'Missing fields'}), 400
+    user = User.query.filter_by(email=email).first()
+    if not user or not user.otp_code or not user.otp_expiry:
+        return jsonify({'error': 'No OTP request found for this email.'}), 404
+    if user.otp_code != otp_code:
+        return jsonify({'error': 'Invalid OTP.'}), 400
+    if datetime.utcnow() > user.otp_expiry:
+        user.otp_code = None
+        user.otp_expiry = None
+        db.session.commit()
+        return jsonify({'error': 'OTP expired. Please request again.'}), 400
+    # OTP is valid, update password and clear OTP fields
+    user.password = generate_password_hash(new_password)
+    user.otp_code = None
+    user.otp_expiry = None
+    db.session.commit()
+    return jsonify({'message': 'Password has been reset successfully!'}), 200

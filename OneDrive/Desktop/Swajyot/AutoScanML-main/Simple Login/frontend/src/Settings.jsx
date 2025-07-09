@@ -1,10 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from './swajyot.svg';
+import logo from './swajyot.jpeg';
 import { useTheme } from "./ThemeContext";
 
 export default function Settings() {
   const navigate = useNavigate();
+  const mainRef = useRef();
+  function handleBack() {
+    if (mainRef.current) {
+      mainRef.current.classList.remove('animate-slideFadeIn');
+      mainRef.current.classList.add('animate-slideFadeOut');
+      setTimeout(() => navigate('/dashboard'), 700);
+    } else {
+      navigate('/dashboard');
+    }
+  }
   const [email, setEmail] = useState("user@example.com");
   const [name, setName] = useState("Dhruv");
   const { theme, setTheme } = useTheme();
@@ -77,14 +87,14 @@ export default function Settings() {
           <span className="text-xl font-bold text-blue-700 tracking-wide">Swajyot AutoScanML</span>
         </div>
         <button
-          onClick={() => navigate('/dashboard')}
+          onClick={handleBack}
           className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition"
         >
           Back to Dashboard
         </button>
       </div>
       {/* Main content */}
-      <main className="flex-1 flex flex-col items-center justify-center p-6">
+      <main ref={mainRef} className="flex-1 flex flex-col items-center justify-center p-6 animate-slideFadeIn">
         <div className="w-full max-w-2xl">
           <h1 className="text-3xl font-bold mb-6">⚙️ Settings</h1>
 

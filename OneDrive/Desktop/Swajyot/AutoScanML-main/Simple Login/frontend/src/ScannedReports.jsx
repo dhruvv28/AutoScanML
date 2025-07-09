@@ -1,10 +1,20 @@
 // Simple Login/frontend/src/ScannedReports.jsx
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "./swajyot.svg"; // Make sure your logo is in src/ as logo.svg
+import logo from "./swajyot.jpeg"; // Make sure your logo is in src/ as logo.svg
 
 export default function ScannedReports() {
   const navigate = useNavigate();
+  const mainRef = useRef();
+  function handleBack() {
+    if (mainRef.current) {
+      mainRef.current.classList.remove('animate-slideFadeIn');
+      mainRef.current.classList.add('animate-slideFadeOut');
+      setTimeout(() => navigate('/dashboard'), 700);
+    } else {
+      navigate('/dashboard');
+    }
+  }
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,7 +46,7 @@ export default function ScannedReports() {
           <span className="text-2xl font-bold text-blue-700 tracking-wide">Swajyot AutoScanML</span>
         </div>
         <button
-          onClick={() => navigate("/dashboard")}
+          onClick={handleBack}
           className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition"
         >
           ← Back to Dashboard
@@ -44,7 +54,7 @@ export default function ScannedReports() {
       </div>
 
       {/* Main content card */}
-      <div className="w-full max-w-4xl mt-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-8 dark:text-white">
+      <div ref={mainRef} className="w-full max-w-4xl mt-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-8 dark:text-white animate-slideFadeIn">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">Scanned Reports</h1>
         <table className="w-full table-auto rounded-lg overflow-hidden shadow dark:text-white">
           <thead>

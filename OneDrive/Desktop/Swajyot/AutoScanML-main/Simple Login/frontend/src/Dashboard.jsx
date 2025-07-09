@@ -74,7 +74,7 @@ export default function Dashboard() {
           Logout
         </button>
       </aside>
-      <div className="flex-1 p-8 overflow-y-auto bg-gray-100 dark:bg-[#181c23]">
+      <div className="flex-1 p-8 overflow-y-auto bg-gray-100 dark:bg-[#181c23] animate-slideFadeIn">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold dark:text-white">Dashboard Overview</h1>
           <Link to="/upload-model">
