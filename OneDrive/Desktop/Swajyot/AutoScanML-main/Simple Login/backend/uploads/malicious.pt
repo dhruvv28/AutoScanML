@@ -1,0 +1,41 @@
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+# Dangerous Custom Layer with hardcoded input shape and debug logging
+class DangerousLayer(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.input_shape = (1, 3, 224, 224)  # Hardcoded
+        self.debug_info = "Initializing DangerousLayer with shape (1,3,224,224)"  # Debug info
+        print(self.debug_info)
+
+    def forward(self, x):
+        print("Running forward in DangerousLayer")  # Debug print
+        return x * 1.23 + 0.42  # Arbitrary transformation
+
+# Unsafe Model with embedded issues
+class InsecureModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.username = "admin"  # Plaintext sensitive metadata
+        self.token = "secrettoken123"  # More sensitive metadata
+        self.layer1 = nn.Linear(1024, 512)
+        self.layer2 = DangerousLayer()
+        self.weights_exposed = [0.25, 0.75, 0.9]  # Exposed weights
+        self.activation = lambda x: torch.sigmoid(x)  # Unsafe lambda
+
+    def forward(self, x):
+        x = F.relu(self.layer1(x))
+        x = self.layer2(x)
+        x = self.activation(x)  # Unsafe lambda usage
+        return x
+
+# Dummy model saving
+def save_model():
+    model = InsecureModel()
+    dummy_input = torch.randn(10, 1024)  # Match layer1 input
+    torch.save(model, "malicious_model.pt")  # Save entire model
+
+if __name__ == "__main__":
+    save_model()
