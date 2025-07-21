@@ -25,6 +25,11 @@ export default function Settings() {
   const [passwordMessage, setPasswordMessage] = useState('');
   const username = localStorage.getItem("username") || "";
   const [user, setUser] = useState({ name: "", email: "" });
+  const [selectedTheme, setSelectedTheme] = useState(theme);
+
+  useEffect(() => {
+    setSelectedTheme(theme); // Always sync dropdown with context on mount/theme change
+  }, [theme]);
 
   useEffect(() => {
     const username = localStorage.getItem("username");
@@ -42,7 +47,8 @@ export default function Settings() {
   }, []);
 
   const handleSave = () => {
-    localStorage.setItem('theme', theme);
+    setTheme(selectedTheme);
+    localStorage.setItem('theme', selectedTheme);
     alert("Settings saved!");
   };
 
@@ -82,9 +88,10 @@ export default function Settings() {
     <div className="min-h-screen flex flex-col bg-white dark:bg-[#1a1f29] text-gray-900 dark:text-white">
       {/* Top bar */}
       <div className="flex items-center justify-between px-8 py-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 bg-gradient-to-r from-white to-blue-50 dark:from-white/90 dark:to-blue-100/80 ring-1 ring-blue-200 dark:ring-blue-400/30 shadow-lg px-6 py-2 rounded-2xl">
           <img src={logo} alt="Swajyot Logo" className="h-8 w-8" />
-          <span className="text-xl font-bold text-blue-700 tracking-wide">Swajyot AutoScanML</span>
+          <div className="border-l border-blue-200 mx-3 h-8"></div>
+          <span className="text-xl font-extrabold font-sans tracking-wide text-blue-700">Swajyot AutoScanML</span>
         </div>
         <button
           onClick={handleBack}
@@ -104,10 +111,9 @@ export default function Settings() {
             <div className="space-y-4">
               <input
                 type="text"
-                value={user.name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Name"
-                className="w-full border p-2 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                value={username}
+                placeholder="Username"
+                className="w-full border p-2 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-semibold"
                 readOnly
               />
               <input
@@ -127,8 +133,11 @@ export default function Settings() {
             <label className="block mb-2">Theme:</label>
             <select
               className="border p-2 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-              value={theme}
-              onChange={(e) => setTheme(e.target.value)}
+              value={selectedTheme}
+              onChange={(e) => {
+                setSelectedTheme(e.target.value);
+                setTheme(e.target.value); // Live preview via context
+              }}
             >
               <option value="light">Light</option>
               <option value="dark">Dark</option>

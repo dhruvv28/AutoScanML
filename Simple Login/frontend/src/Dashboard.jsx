@@ -66,7 +66,7 @@ export default function Dashboard() {
         </div>
         <button
           onClick={() => {
-            localStorage.clear();
+            localStorage.removeItem('username'); // Only remove username
             window.location.href = '/';
           }}
           className="mt-8 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded transition font-semibold shadow"

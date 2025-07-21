@@ -80,11 +80,9 @@ export default function LoginPage() {
         setMessage("Login successful!");
         let users = JSON.parse(localStorage.getItem("rememberedUsers") || "[]");
         if (rememberMe) {
+          // Add or update the remembered user
           users = users.filter(u => u.username !== username);
           users.unshift({ username, password });
-          localStorage.setItem("rememberedUsers", JSON.stringify(users));
-        } else {
-          users = users.filter(u => u.username !== username);
           localStorage.setItem("rememberedUsers", JSON.stringify(users));
         }
         setRememberedUsers(users);

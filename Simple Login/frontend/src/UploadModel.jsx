@@ -71,9 +71,10 @@ export default function UploadModel() {
     <div className="min-h-screen bg-gradient-to-br from-white to-blue-100 dark:from-[#1a1f29] dark:to-[#1a1f29] flex flex-col items-center justify-center relative dark:text-white">
       {/* Top bar with logo/name and back button */}
       <div className="w-full flex items-center justify-between px-10 py-6 absolute top-0 left-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 dark:text-white">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 bg-gradient-to-r from-white to-blue-50 dark:from-white/90 dark:to-blue-100/80 ring-1 ring-blue-200 dark:ring-blue-400/30 shadow-lg px-6 py-2 rounded-2xl">
           <img src={logo} alt="Swajyot Logo" className="h-10 w-10" />
-          <span className="text-2xl font-bold text-blue-600 font-sans">Swajyot AutoScanML</span>
+          <div className="border-l border-blue-200 mx-3 h-8"></div>
+          <span className="text-2xl font-extrabold font-sans tracking-wide text-blue-700">Swajyot AutoScanML</span>
         </div>
         <button
           onClick={handleBack}

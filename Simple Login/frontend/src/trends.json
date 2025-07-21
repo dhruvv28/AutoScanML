@@ -1,0 +1,110 @@
+{
+    "stats": {
+      "timestamp": "2025-07-21T01:05:01.983Z",
+      "timestamp_doy": 202,
+      "timestamp_day": 21,
+      "timestamp_year": 2025,
+      "timestamp_month": 7,
+      "id": "2025-7-21",
+      "vulnerabilities_all_y2d": 26122,
+      "vulnerabilities_all_ly2d": 22522,
+      "vulnerabilities_y2d_change_yoy": 0.159843708374034,
+      "vulnerabilities_all_yoy": [
+        {
+          "year": 2016,
+          "count": 6449
+        },
+        {
+          "year": 2017,
+          "count": 14642,
+          "change_yoy": 1.2704295239572
+        },
+        {
+          "year": 2018,
+          "count": 16507,
+          "change_yoy": 0.127373309657151
+        },
+        {
+          "year": 2019,
+          "count": 17302,
+          "change_yoy": 0.0481613860786333
+        },
+        {
+          "year": 2020,
+          "count": 18322,
+          "change_yoy": 0.0589527222286441
+        },
+        {
+          "year": 2021,
+          "count": 20153,
+          "change_yoy": 0.0999345049667067
+        },
+        {
+          "year": 2022,
+          "count": 25081,
+          "change_yoy": 0.244529350468913
+        },
+        {
+          "year": 2023,
+          "count": 28826,
+          "change_yoy": 0.149316215461903
+        },
+        {
+          "year": 2024,
+          "count": 40246,
+          "change_yoy": 0.396170124193437
+        },
+        {
+          "year": 2025,
+          "count": 26122
+        }
+      ],
+      "vulnerabilities_critical_y2d": 2199,
+      "vulnerabilities_critical_ly2d": 2024,
+      "vulnerabilities_critical_y2d_change_yoy": 0.0864624505928854,
+      "vulnerabilities_high_y2d": 7869,
+      "vulnerabilities_high_ly2d": 6720,
+      "vulnerabilities_high_y2d_change_yoy": 0.170982142857143,
+      "vulnerabilities_medium_y2d": 12670,
+      "vulnerabilities_medium_ly2d": 9477,
+      "vulnerabilities_medium_y2d_change_yoy": 0.336920966550596,
+      "vulnerabilities_low_y2d": 719,
+      "vulnerabilities_low_ly2d": 565,
+      "vulnerabilities_low_y2d_change_yoy": 0.272566371681416,
+      "vulnerabilities_severity_unknown_y2d": 2657,
+      "vulnerabilities_severity_unknown_ly2d": 3736,
+      "vulnerabilities_severity_unknown_y2d_change_yoy": -0.288811563169165,
+      "vulnerabilities_average_daily": 129,
+      "vulnerabilities_average_working_daily": 181,
+      "vulnerabilities_exploited_y2d": 4246,
+      "vulnerabilities_exploited_ly2d": 2503,
+      "vulnerabilities_exploited_y2d_change_yoy": 0.696364362764682,
+      "vulnerabilities_exploited_average_y2d": 10,
+      "vulnerabilities_exploited_zeroday_y2d": 3399,
+      "vulnerabilities_news_y2d": 266,
+      "vulnerabilities_trended_y2d": 156,
+      "vulnerabilities_poc_y2d": 3628,
+      "vulnerabilities_chart_y2d": [
+        {
+          "name": "UNRATED",
+          "data": [568, 410, 203, 326, 500, 378, 272, 0, 0, 0, 0, 0]
+        },
+        {
+          "name": "LOW",
+          "data": [79, 116, 106, 119, 108, 116, 75, 0, 0, 0, 0, 0]
+        },
+        {
+          "name": "MEDIUM",
+          "data": [2022, 1795, 1956, 1880, 1974, 1902, 1141, 0, 0, 0, 0, 0]
+        },
+        {
+          "name": "HIGH",
+          "data": [1302, 1087, 1341, 1363, 1027, 1001, 748, 0, 0, 0, 0, 0]
+        },
+        {
+          "name": "CRITICAL",
+          "data": [356, 314, 381, 375, 290, 281, 202, 0, 0, 0, 0, 0]
+        }
+      ]
+    }
+  }
